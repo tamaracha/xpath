@@ -166,17 +166,20 @@ var xpath = (typeof exports === 'undefined') ? {} : exports;
     var wrap = function (pref, suf, str) { return pref + str + suf; };
 
     var prototypeConcat = Array.prototype.concat;
-    var prototypeSlice = Array.prototype.slice;
+
+    // .apply() fails above a certain number of arguments - https://github.com/goto100/xpath/pull/98
     var MAX_ARGUMENT_LENGTH = 32767;
 
     function flatten(arr) {
         var result = [];
+
         for (var start = 0; start < arr.length; start += MAX_ARGUMENT_LENGTH) {
-            var end = Math.min(start + MAX_ARGUMENT_LENGTH, arr.length);
-            var chunk = prototypeSlice.call(arr, start, end);
+            var chunk = arr.slice(start, start + MAX_ARGUMENT_LENGTH);
+            
             result = prototypeConcat.apply(result, chunk);
         }
-        return result
+        
+        return result;
     }
 
     function assign(target, varArgs) { // .length of function is 2
