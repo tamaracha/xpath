@@ -21,6 +21,9 @@
     "mocha": "^9.0.2"
   },
   "typings": "./xpath.d.ts",
+  "files": [
+    "xpath.*"
+  ],
   "scripts": {
     "test": "mocha"
   },
